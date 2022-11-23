@@ -11,7 +11,7 @@ Utilice el archivo `data.csv` para resolver las preguntas.
 
 
 """
-with open("/content/data.csv", "r") as file:
+with open("/data.csv", "r") as file:
     data_csv = file.readlines()
 
 data_csv = [line.replace("\n", "") for line in data_csv]
