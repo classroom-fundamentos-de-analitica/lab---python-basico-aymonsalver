@@ -11,8 +11,12 @@ Utilice el archivo `data.csv` para resolver las preguntas.
 
 
 """
-import csv
+with open("/content/data.csv", "r") as file:
+    data_csv = file.readlines()
 
+data_csv = [line.replace("\n", "") for line in data_csv]
+data_csv = [line.replace("\t", ";") for line in data_csv]
+data_csv = [line.split(";") for line in data_csv]
 def pregunta_01():
     """
     Retorne la suma de la segunda columna.
@@ -21,14 +25,10 @@ def pregunta_01():
     214
 
     """
-    data = open("data.csv", "r").readlines()
-    data = [row[0:-1] for row in data]
-    data = [row.split() for row in data]
-    data = [row[1] for row in data]
-    sum = 0
-    for row in data:
-        sum += int(row)
-    return sum
+    acu = 0
+    for i in range(0, len(data_csv)):
+      acu = acu + int(data_csv[i][1])
+    return acu
 
 
 def pregunta_02():
