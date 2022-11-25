@@ -276,7 +276,23 @@ def pregunta_08():
     ]
 
     """
-    return
+    data = open("data.csv", "r").readlines()
+    data = [row[0:-1] for row in data]
+    data = [row.split() for row in data]
+    data = [[row[1], row[0]] for row in data]
+    numeros = sorted(set([row[0] for row in data]))
+    diccionario = {}
+    respuesta = []
+    for numero in numeros:
+        diccionario[numero] = []
+    for numero in numeros:
+        for row in data:
+            if row[0] == numero:
+                if not (row[1] in diccionario[numero]):
+                    diccionario[numero].append(row[1]) 
+        respuesta.append(( int(numero) , sorted(diccionario[numero])))
+    return respuesta 
+
 
 
 def pregunta_09():
