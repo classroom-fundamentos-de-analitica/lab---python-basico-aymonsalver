@@ -11,8 +11,7 @@ Utilice el archivo `data.csv` para resolver las preguntas.
 
 
 """
-
-
+import csv
 def pregunta_01():
     """
     Retorne la suma de la segunda columna.
@@ -21,7 +20,14 @@ def pregunta_01():
     214
 
     """
-    return
+    data = open("data.csv", "r").readlines()
+    data = [row[0:-1] for row in data]
+    data = [row.split() for row in data]
+    data = [row[1] for row in data]
+    sum = 0
+    for row in data:
+        sum += int(row)
+    return sum
 
 
 def pregunta_02():
@@ -39,7 +45,21 @@ def pregunta_02():
     ]
 
     """
-    return
+    data = open("data.csv", "r").readlines()
+    data = [row[0:-1] for row in data]
+    data = [row.split() for row in data]
+    data = [row[0] for row in data]
+    conjuntoUnico = set(data)
+    diccionario = {}
+    respuesta = []
+    for clave in conjuntoUnico:
+        diccionario[clave] = 0
+    for row in data:
+        diccionario[row] += 1
+    clavesOrdenadas = sorted(diccionario)
+    for clave in clavesOrdenadas:
+        respuesta.append((clave,diccionario[clave]))
+    return respuesta
 
 
 def pregunta_03():
@@ -57,8 +77,22 @@ def pregunta_03():
     ]
 
     """
-    return
-
+    data = open("data.csv", "r").readlines()
+    data = [row[0:-1] for row in data]
+    data = [row.split() for row in data]
+    data = [[row[0], row[1]] for row in data]
+    columnaLetras = [row[0] for row in data]
+    conjuntoUnico = set(columnaLetras)
+    diccionario = {}
+    respuesta =[]
+    for clave in conjuntoUnico:
+        diccionario[clave] = 0
+    for row in data:
+        diccionario[row[0]] += int(row[1])
+    clavesOrdenadas = sorted(diccionario)
+    for clave in clavesOrdenadas:
+        respuesta.append((clave , diccionario[clave]))
+    return respuesta
 
 def pregunta_04():
     """
@@ -82,7 +116,20 @@ def pregunta_04():
     ]
 
     """
-    return
+    data = open("data.csv", "r").readlines()
+    data = [row[0:-1] for row in data]
+    data = [row.split() for row in data]
+    data = [row[2].split("-")[1] for row in data]
+    mesesDiferentes = sorted(set(data))
+    diccionario = {}
+    respuesta = []
+    for mes in mesesDiferentes:
+        diccionario[mes] = 0
+    for row in data:
+        diccionario[row] += 1
+    for key in diccionario:
+        respuesta.append((key ,diccionario[key]))
+    return respuesta
 
 
 def pregunta_05():
@@ -100,7 +147,32 @@ def pregunta_05():
     ]
 
     """
-    return
+    csv = open("data.csv", "r").readlines()
+    data = []
+    for line in csv:
+        data.append([e.strip() for e in line.split("\t") ])
+
+    letters = {}
+    for row in data:
+        letter = row[0]
+        amount = int(row[1])
+        if letter not in letters:
+            letters[letter] = [amount, amount]
+        else:
+            letterMinAndMax= letters[letter]
+            if (amount > letterMinAndMax[0]):
+                letterMinAndMax[0] = amount
+            elif (amount < letterMinAndMax[1]):
+                letterMinAndMax[1] = amount
+
+    sortedLetters = {k: letters[k] for k in sorted(letters)}
+
+    respuesta = []
+
+    for letter, minAndMax in sortedLetters.items():
+        respuesta.append((letter,minAndMax[0],minAndMax[1]))
+    
+    return respuesta
 
 
 def pregunta_06():
@@ -125,7 +197,23 @@ def pregunta_06():
     ]
 
     """
-    return
+    data = open("data.csv", "r").readlines()
+    data = [row[0:-1] for row in data]
+    data = [row.split()[4].split(",") for row in data]
+    data = [column.split(":") for row in data for column in row]
+    conjuntoPalabras = sorted(set([row[0] for row in data]))
+    diccionario = {}
+    respuesta = []
+    for letra in conjuntoPalabras:
+        diccionario[letra] = []
+    for letra in conjuntoPalabras:
+        for row in data:
+            if row[0] == letra:
+                diccionario[letra].append(int(row[1]))
+        maximo = max(diccionario[letra])
+        minimo = min(diccionario[letra])
+        respuesta.append((letra, int(minimo),int(maximo)))
+    return respuesta
 
 
 def pregunta_07():
@@ -149,7 +237,21 @@ def pregunta_07():
     ]
 
     """
-    return
+    data = open("data.csv", "r").readlines()
+    data = [row[0:-1] for row in data]
+    data = [row.split() for row in data]
+    data = [[row[1], row[0]] for row in data]
+    numeros = sorted(set([row[0] for row in data]))
+    diccionario = {}
+    respuesta = []
+    for numero in numeros:
+        diccionario[numero] = []
+    for numero in numeros:
+        for row in data:
+            if row[0] == numero:
+                diccionario[numero].append(row[1])
+        respuesta.append((int(numero) , diccionario[numero] ))
+    return respuesta
 
 
 def pregunta_08():
@@ -174,7 +276,23 @@ def pregunta_08():
     ]
 
     """
-    return
+    data = open("data.csv", "r").readlines()
+    data = [row[0:-1] for row in data]
+    data = [row.split() for row in data]
+    data = [[row[1], row[0]] for row in data]
+    numeros = sorted(set([row[0] for row in data]))
+    diccionario = {}
+    respuesta = []
+    for numero in numeros:
+        diccionario[numero] = []
+    for numero in numeros:
+        for row in data:
+            if row[0] == numero:
+                if not (row[1] in diccionario[numero]):
+                    diccionario[numero].append(row[1]) 
+        respuesta.append(( int(numero) , sorted(diccionario[numero])))
+    return respuesta 
+
 
 
 def pregunta_09():
@@ -197,7 +315,22 @@ def pregunta_09():
     }
 
     """
-    return
+    data = open("data.csv", "r").readlines()
+    data = [row[0:-1] for row in data]
+    data = [row.split()[4].split(",") for row in data]
+    data = [column.split(":") for row in data for column in row]
+    conjuntoPalabras = sorted(set([row[0] for row in data]))
+    diccionario = {}
+    respuesta = {}
+    for letra in conjuntoPalabras:
+        diccionario[letra] = []
+    for letra in conjuntoPalabras:
+        total = 0
+        for row in data:
+            if row[0] == letra:
+                total += 1 
+        respuesta[letra] = total
+    return respuesta
 
 
 def pregunta_10():
@@ -218,7 +351,14 @@ def pregunta_10():
 
 
     """
-    return
+    respuesta = []
+    data = open("data.csv", "r").readlines()
+    data = [row[0:-1] for row in data]
+    data = [row.split() for row in data]
+    data = [[row[0], str(len(row[3].split(","))), str(len(row[4].split(",")))] for row in data]
+    [respuesta.append((row[0],int(row[1]),int(row[2]))) for row in data]
+    return respuesta
+
 
 
 def pregunta_11():
@@ -239,8 +379,21 @@ def pregunta_11():
 
 
     """
-    return
-
+    data = []
+    csv = open("data.csv", "r").readlines()
+    for line in csv:
+        data.append([e.strip() for e in line.split("\t") ])
+    count = {}
+    for row in data:
+        quantity = int(row[1])
+        letters = row[3].split(",")
+        for letter in letters:
+            if letter not in count:
+                count[letter] = 0
+            count[letter] += quantity
+    
+    respuesta = {k: count[k] for k in sorted(count)}
+    return respuesta
 
 def pregunta_12():
     """
@@ -257,4 +410,20 @@ def pregunta_12():
     }
 
     """
-    return
+    listaSumar = []
+    respuesta = {}
+    data = open("data.csv", "r").readlines()
+    data = [row[0:-1] for row in data]
+    data = [row.split() for row in data]
+    print(data)
+    data = [[row[0], sum([int(fila.split(":")[1]) for fila in row[4].split(",")])] for row in data]
+    #[print(row[0]+ "," + str(row[1])) for row in data]
+    [listaSumar.append( [row[0] , row[1]]) for row in data]
+    print(listaSumar)
+    for fila in listaSumar:
+        keys = respuesta.keys()
+        if fila[0] in keys:
+            respuesta[fila[0]] += fila[1]
+        else:
+            respuesta[fila[0]] = fila[1]
+    return respuesta
